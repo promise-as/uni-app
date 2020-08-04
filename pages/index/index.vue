@@ -1,17 +1,33 @@
 <template>
 	<view class="content">
-		<image class="logo" src="/static/logo.png"></image>
-		<view class="text-area">
-			<text class="title">{{title}}</text>
+		<test v-if="flag" :title="title" @myEven="getNum"></test>
+		<button type="primary" @click="checkTest">切换test组件</button>
+		这是子组件传递过来的{{num}}
+		<test-a></test-a>
+		<test-b></test-b>
+		<view>
+		    <uni-calendar 
+		    :insert="true"
+		    :lunar="true" 
+		    :start-date="'2019-3-2'"
+		    :end-date="'2019-5-20'"
+		    @change="change"
+		     />
 		</view>
 	</view>
 </template>
 
 <script>
+	import test from '../../components/test.vue'
+	import testA from '../../components/a.vue'
+	import testB from '../../components/b.vue'
+	import uniCalendar from '@/components/uni-calendar/uni-calendar.vue'
 	export default {
 		data() {
 			return {
-				title: 'Index'
+				title: 'Hello',
+				num: 0,
+				flag: true
 			}
 		},
 		onLoad(options) {
@@ -26,8 +42,22 @@
 		onHide(){
 			console.log('页面隐藏了')
 		},
-		methods: {
-
+		methods:{
+			checkTest(){
+				this.flag = !this.flag
+			},
+			getNum(num){
+				this.num = num
+			},
+			change(e) {
+				console.log('触发了change', e);
+			}
+		},
+		components: {
+			'test' : test,
+			'test-a': testA,
+			'test-b': testB,
+			uniCalendar
 		}
 	}
 </script>
